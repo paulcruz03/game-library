@@ -19,10 +19,11 @@ import {
 } from "@/components/ui/form";
 import { signup } from "@/lib/auth";
 import { userSchema as formSchema } from "@/lib/schema";
-import { UserModal } from "../header/userModal";
+import { useDialog } from "@/app/context";
 
 export default function RegisterForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { openDialog, closeDialog } = useDialog();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,6 +43,7 @@ export default function RegisterForm() {
 
     toast("Ok. Check your email for a confirmation link.");
     setIsSubmitted(false);
+    closeDialog();
   }
 
   return (
@@ -82,9 +84,7 @@ export default function RegisterForm() {
           </Button>
           <div className="text-center text-sm mt-3">
             Already have an account?{" "}
-            <UserModal mode='login'>
-              <Button className="pl-2 py-0 h-auto" variant="link">Login</Button>
-            </UserModal>
+            <Button onClick={() => openDialog('login')} className="pl-2 py-0 h-auto" variant="link">Login</Button>
           </div>
         </div>
     </form>

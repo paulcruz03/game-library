@@ -1,5 +1,6 @@
 'use client'
 import { createContext, useContext, useState, ReactNode } from "react"
+import { UserModal } from "@/components/widgets/header/userModal";
 
 type DialogType = "login" | "signup" | "forgot" | null
 
@@ -19,6 +20,11 @@ export function DialogProvider({ children }: { children: ReactNode }) {
 
   return (
     <DialogContext.Provider value={{ activeDialog, openDialog, closeDialog }}>
+
+      <UserModal mode='forgot' />
+      <UserModal mode='login' />
+      <UserModal mode='signup' />
+      
       {children}
     </DialogContext.Provider>
   )

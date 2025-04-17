@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Content from "@/components/widgets/page/content";
 import { getGames } from "@/lib/rawg";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
   const getGenreGamesCache = unstable_cache(

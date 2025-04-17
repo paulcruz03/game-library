@@ -89,7 +89,7 @@ export default function Content({ games, mode, slug }: Props) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-3 px-2 justify-items-center">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 px-2 justify-items-center">
         {gameList.map(item => <Item key={item.slug} item={item} />)}
       </div>
 

@@ -24,16 +24,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 
-import { UserModal } from "./userModal";
 import * as supabaseLib from '@/lib/auth';
 import { Genre, Tags } from '@/lib/schema';
+import { useDialog } from "@/app/context";
 
 export default function SiteHeader({ session, tags, genre }: { session: User | null, tags: Tags[], genre: Genre[] }) {
   const [open, setOpen] = useState<boolean>(false);
-  // const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
-  // const [isRegisterOpen, setIsRegisterOpen] = useState<boolean>(false);
   const [tagList, setTagList] = useState<Tags[]>(tags);
   const [genreList, setGenreList] = useState<Genre[]>(genre);
+  const { openDialog } = useDialog();
 
   const searchInput = useRef<HTMLInputElement>(null);
 
@@ -99,15 +98,20 @@ export default function SiteHeader({ session, tags, genre }: { session: User | n
           </NavigationMenuItem>
         {!session ? <>
             <NavigationMenuItem>
-              <UserModal mode='signup'>
-                <Button variant="link">Sign Up</Button>
-              </UserModal>
+              <Button
+                variant="link"
+                onClick={() => openDialog('signup')}
+              >
+                Sign Up
+              </Button>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <UserModal mode='forgot' />
-              <UserModal mode='login'>
-                <Button variant="link">Login</Button>
-              </UserModal>
+              <Button
+                variant="link"
+                onClick={() => openDialog('login')}
+              >
+                Login
+              </Button>
             </NavigationMenuItem>
           </>
         :
@@ -176,17 +180,19 @@ export default function SiteHeader({ session, tags, genre }: { session: User | n
         </div>
 
         {!session ? <div className="flex flex-col items-start">
-          <UserModal mode='signup'>
-            <Button variant="link">
-              Sign Up
-            </Button>
-          </UserModal>
-          <UserModal mode='forgot' />
-          <UserModal mode='login'>
-            <Button variant="link">
-              Login
-            </Button>
-          </UserModal>
+          
+          <Button
+            variant="link"
+            onClick={() => openDialog('signup')}
+          >
+            Sign Up
+          </Button>
+          <Button
+            variant="link"
+            onClick={() => openDialog('login')}
+          >
+            Login
+          </Button>
         </div>
         :
         <div className="flex flex-col items-start">

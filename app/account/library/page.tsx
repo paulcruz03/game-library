@@ -35,7 +35,7 @@ export default async function Page() {
       </div>
 
       {(userLibrary.length === 0) && <>No games added. <Link className="underline" href="/">Browse Here</Link></>}
-      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 justify-items-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
         {userLibrary.map((item) => <ItemCard key={item.slug} item={item} />)}
       </div>
     </div>

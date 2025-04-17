@@ -12,7 +12,7 @@ import Detail from "@/components/widgets/page/detail";
 import { session } from "@/lib/auth";
 import { getUserLibraryGameById } from "@/lib/server_db";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const rawParams = await params;
   const { data: userSession } = await session()
 

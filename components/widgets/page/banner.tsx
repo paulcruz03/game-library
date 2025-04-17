@@ -16,7 +16,7 @@ export default function Banner({ games }: { games: { results: Game[], count: num
         <CarouselContent>
           {games.results.map((item, index) => (
             <CarouselItem key={index} className="sm:basis-1 md:basis-1/2 lg:basis-1/4">
-              <Item session={null} mode="highlight-rating" item={item} />
+              <Item mode="highlight-rating" item={item} />
             </CarouselItem>
           ))}
         </CarouselContent>

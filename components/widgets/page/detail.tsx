@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 import Platform from "@/components/widgets/page/parts/platform"
 import Genre from "@/components/widgets/page/parts/genre"
 import Tags from "@/components/widgets/page/parts/tags"
-import { Game, GameDetail, Screenshot, Store, Trailer } from "@/lib/schema";
+import { Game, GameDetail, Screenshot, Store } from "@/lib/schema";
 import { addToLibrary, removeFromTheLibrary } from "@/lib/db"
 import Item from "./itemCard"
 import { getGameSuggestionBaseOnTagsOrGenres } from "@/lib/rawg"
