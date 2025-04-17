@@ -20,8 +20,7 @@ import {
 } from "@/components/ui/form";
 import { login } from "@/lib/auth";
 import { userSchema as formSchema } from "@/lib/schema";
-import { UserModal } from "../header/userModal";
-import { useDialog } from "@/app/context"
+import { useDialog } from "@/app/context";
 
 export default function LoginForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -98,9 +97,13 @@ export default function LoginForm() {
             </Button>
             <div className="flex text-center text-sm mt-3">
               Don&apos;t have an account?
-              <UserModal mode='signup'>
-                <Button className="pl-2 py-0 h-auto" variant="link">Sign Up</Button>
-              </UserModal>
+              <Button
+                className="pl-2 py-0 h-auto"
+                variant="link"
+                onClick={() => openDialog('signup')}
+              >
+                Sign Up
+              </Button>
             </div>
           </div>
       </form>
