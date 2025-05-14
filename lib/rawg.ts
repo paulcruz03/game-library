@@ -18,7 +18,7 @@ export async function getHighlyRatedGames() {
   // gets games that have high metacritic rating
   return await request(
     '/games', 
-    { ordering: "-metacritic", page: "1", page_size: '20', metacritic: "90,100" },
+    { ordering: "-added", page: "1", page_size: '20', metacritic: "90,100" },
     {}
   )
 }
