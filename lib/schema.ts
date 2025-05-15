@@ -10,7 +10,9 @@ export const userSchema = z.object({
 });
 
 export interface UsualType {
-  id: number; name: string; slug: string;
+  id: number;
+  name: string;
+  slug: string;
 }
 
 export interface Game {

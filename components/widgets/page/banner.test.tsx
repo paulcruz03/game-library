@@ -1,28 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import Banner from './banner'
+import { Game } from '@/lib/schema';
 
-const mockGames = {
-  results: [],
-  count: 0,
-}
+jest.mock("@/components/ui/carousel", () => ({
+  Carousel: ({ children }: any) => <div data-testid="carousel">{children}</div>,
+  CarouselContent: ({ children }: any) => <div data-testid="carousel-content">{children}</div>,
+  CarouselItem: ({ children }: any) => <div data-testid="carousel-item">{children}</div>,
+  CarouselNext: (props: any) => <button data-testid="carousel-next" {...props}>Next</button>,
+  CarouselPrevious: (props: any) => <button data-testid="carousel-prev" {...props}>Prev</button>,
+}));
 
 describe('Banner', () => {
-  it('renders the banner component', () => {
-    render(<Banner games={mockGames} />)
-    const banner = screen.getByText(/Banner Component/i)
+  it('renders the correct title', () => {
+    render(<Banner games={{ count: 0, results: [] }} />)
+    const banner = screen.getByRole('heading', { level: 2, name: 'Highly Rated Games of All Time' })
     expect(banner).toBeInTheDocument()
   })
 
-  it('renders the correct title', () => {
-    render(<Banner games={mockGames} />)
-    const title = screen.getByText(/Welcome to the Banner/i)
-    expect(title).toBeInTheDocument()
-  })
+  it("does render CarouselContent when there are games available", () => {
+    render(<Banner games={{ count: 0, results: [
+      { id: 1, name: "Game One", rating: 4.9 },
+      { id: 2, name: "Game Two", rating: 4.8 },
+    ] as Game[] }} />);
+    expect(screen.getByTestId("carousel-content")).toBeInTheDocument();
+    expect(screen.getAllByTestId("carousel-item")).toHaveLength(2);
+  });
 
-  it('renders the correct description', () => {
-    render(<Banner games={mockGames} />)
-    const description = screen.getByText(/This is a simple banner component./i)
-    expect(description).toBeInTheDocument()
-  })
+  it("does not render CarouselContent when there are no games", () => {
+    render(<Banner games={{ count: 0, results: [] }} />);
+    expect(screen.queryByTestId("carousel-content")).not.toBeInTheDocument();
+  });
 })
