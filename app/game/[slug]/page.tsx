@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 
 import {
   getGameDetailBySlug,
@@ -11,6 +12,24 @@ import {
 import Detail from "@/components/widgets/page/detail";
 import { session } from "@/lib/auth";
 import { getUserLibraryGameById } from "@/lib/server_db";
+
+export const getGameDetail = cache(async (slug: string) => {
+  const res = await getGameDetailBySlug(slug)
+  return await res?.json()
+})
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}) {
+  const gameDetail = await getGameDetail(params.slug)
+  return {
+    title: `${gameDetail.name} - Game Library`,
+    description: gameDetail.description_raw,
+  }
+}
+
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const rawParams = await params;

@@ -29,7 +29,7 @@ export interface Game {
   stores: { store: { id: number; name: string; domain: string; } }[];
   tags: UsualType[];
   clip: string | null;
-  short_screenshots: { id: number; image: string; }[];
+  short_screenshots?: { id: number; image: string; }[];
 }
 
 export interface GameDetail extends Game {

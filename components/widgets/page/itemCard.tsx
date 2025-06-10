@@ -17,7 +17,7 @@ export default function Item({ item, mode = "normal" }: { item: Game, mode?: "no
   useEffect(() => {
     if (isHovered) {
       intervalRef.current = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % item.short_screenshots.length);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % (item.short_screenshots ? item.short_screenshots.length : 1));
       }, 2000);
     } else if (intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -30,13 +30,13 @@ export default function Item({ item, mode = "normal" }: { item: Game, mode?: "no
 
   const card = (
     <Card
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => setIsHovered(true && (!!item?.short_screenshots && item.short_screenshots.length > 0))}
       onMouseLeave={() => setIsHovered(false)}
       className="group lg:h-[553px] transition-transform duration-200 ease-in-out hover:scale-105 w-full max-w-sm shadow-lg rounded-2xl overflow-hidden pt-0 lg:my-2"
     >
       <CardHeader className="p-0 gap-4">
         <div style={{ position: 'relative', width: '100%', height: '200px' }}>
-          {(!isHovered && item.short_screenshots.length)  ? <Image
+          {(!isHovered && <Image
             src={(item.background_image ?? "https://placehold.co/600x400")}
             alt={item.name}
             fill
@@ -44,7 +44,9 @@ export default function Item({ item, mode = "normal" }: { item: Game, mode?: "no
               objectFit: 'cover',
               objectPosition: 'top',
             }}
-          /> : item.short_screenshots.map((ss, i) => (
+          />)}
+          {isHovered && item.short_screenshots && item.short_screenshots.length > 0 && (
+            item.short_screenshots.map((ss, i) => (
             <Image
               key={i}
               src={ss.image}
@@ -58,7 +60,8 @@ export default function Item({ item, mode = "normal" }: { item: Game, mode?: "no
                 i === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
             />
-          )) }
+          ))
+        )}
         </div>
         <div className="grid px-6 gap-2">
           <CardTitle className="text-xl">{item.name}</CardTitle>
