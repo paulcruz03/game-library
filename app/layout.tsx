@@ -68,7 +68,10 @@ export default async function RootLayout({
       >
           <DialogProvider>
             <Header session={userSession.user} genre={genre.results} tags={tags.results} />
-            {children}
+            
+            <section className="container px-2 mx-auto my-10">
+              {children}
+            </section>
           </DialogProvider>
         <Toaster />
         <Analytics />

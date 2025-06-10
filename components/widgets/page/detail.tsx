@@ -163,7 +163,7 @@ export default function Detail(
 
         {(suggestions.length > 0) && <div>
           <h2 className="text-xl my-4">Suggestions base on game tags and genre</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-2 justify-items-center">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 px-2 justify-items-center">
             {suggestions
               .filter(item => item.slug != gameDetail.slug) // remove possibly the same game of the game detail
               .splice(0,4)

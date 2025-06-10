@@ -1,32 +1,71 @@
+'use client'
 import Image from "next/image"
 import Link from "next/link"
+import { useEffect, useRef, useState } from 'react';
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Game } from "@/lib/schema"
-import { Badge } from "@/components/ui/badge"
+import Platform from "@/components/widgets/page/parts/platform"
+import Genre from "@/components/widgets/page/parts/genre"
+import Tags from "@/components/widgets/page/parts/tags"
 
 export default function Item({ item, mode = "normal" }: { item: Game, mode?: "normal" | "highlight-rating" | "dlc" }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (isHovered) {
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % item.short_screenshots.length);
+      }, 2000);
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isHovered]);
+
   const card = (
-    <Card className="group h-[420px] lg:h-[375px] transition-transform duration-200 ease-in-out hover:scale-105 w-full max-w-sm shadow-lg rounded-2xl overflow-hidden pt-0 lg:my-2">
+    <Card
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group lg:h-[553px] transition-transform duration-200 ease-in-out hover:scale-105 w-full max-w-sm shadow-lg rounded-2xl overflow-hidden pt-0 lg:my-2"
+    >
       <CardHeader className="p-0 gap-4">
         <div style={{ position: 'relative', width: '100%', height: '200px' }}>
-          <Image
-            src={item.background_image ?? "https://placehold.co/600x400"}
+          {(!isHovered && item.short_screenshots.length)  ? <Image
+            src={(item.background_image ?? "https://placehold.co/600x400")}
             alt={item.name}
             fill
             style={{
               objectFit: 'cover',
               objectPosition: 'top',
             }}
-          />
+          /> : item.short_screenshots.map((ss, i) => (
+            <Image
+              key={i}
+              src={ss.image}
+              alt={`Slide ${i}`}
+              fill
+              style={{
+                objectFit: 'cover',
+                objectPosition: 'top',
+              }}
+              className={`object-cover transition-opacity duration-700 ease-in-out ${
+                i === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
+            />
+          )) }
         </div>
         <div className="grid px-6 gap-2">
           <CardTitle className="text-xl">{item.name}</CardTitle>
           <p>Released: {new Date(item.released).toLocaleDateString()}</p>
-          {mode === 'highlight-rating' && <>
-            <Badge variant={"destructive"}>Metacritic Rating: {item.metacritic}</Badge>
-          </>}
-          {item.rating > 0 && <Badge variant={"secondary"}>Rating {item.rating}</Badge>}
+          <Platform platformList={item.platforms} />
+          <Genre genre={item.genres} />
+          <Tags tags={item.tags} />
         </div>
       </CardHeader>
     </Card>

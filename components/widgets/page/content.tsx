@@ -70,7 +70,7 @@ export default function Content({ games, mode, slug }: Props) {
   return (
     <div className="w-full relative">
       <div className="lg:grid lg:grid-cols-2 p-2 items-center justify-between">
-        <h2 className="text-center lg:text-left text-3xl w-full my-5 capitalize">{mode === 'normal' ? 'Game Library' : slug?.replaceAll("-", " ")}</h2>
+        <h2 className="text-center lg:text-left text-3xl w-full my-5 capitalize">{mode === 'normal' ? 'Home' : slug?.replaceAll("-", " ")}</h2>
         <div className="flex w-full lg:max-w-sm items-center space-x-2 justify-self-end">
           <div className="relative w-full">
             <Input
