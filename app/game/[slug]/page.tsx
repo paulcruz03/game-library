@@ -13,7 +13,7 @@ import Detail from "@/components/widgets/page/detail";
 import { session } from "@/lib/auth";
 import { getUserLibraryGameById } from "@/lib/server_db";
 
-export const getGameDetail = cache(async (slug: string) => {
+const getGameDetail = cache(async (slug: string) => {
   const res = await getGameDetailBySlug(slug)
   return await res?.json()
 })
