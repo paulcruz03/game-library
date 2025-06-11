@@ -18,12 +18,9 @@ const getGameDetail = cache(async (slug: string) => {
   return await res?.json()
 })
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string }
-}) {
-  const gameDetail = await getGameDetail(params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const rawParams = await params;
+  const gameDetail = await getGameDetail(rawParams.slug)
   return {
     title: `${gameDetail.name} - Game Library`,
     description: gameDetail.description_raw,

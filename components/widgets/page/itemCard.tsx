@@ -26,7 +26,7 @@ export default function Item({ item, mode = "normal" }: { item: Game, mode?: "no
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isHovered]);
+  }, [isHovered, item.short_screenshots]);
 
   const card = (
     <Card
